@@ -11,11 +11,11 @@ WORKDIR /src
 # Устанавливаем зависимости приложения и параметры компиляции
 RUN ls
 RUN dotnet restore
-RUN dotnet build "./3_calculator.csproj" -c Release -o /app/build
+RUN dotnet build "./3_Calculator.csproj" -c Release -o /app/build
 FROM build AS publish
-RUN dotnet publish "./3_calculator.csproj" -c Release -o /app/publish
+RUN dotnet publish "./3_Calculator.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish ./
 # Определяем команду запуска контейнера
-ENTRYPOINT ["dotnet", "3_calculator.dll"]
+ENTRYPOINT ["dotnet", "3_Calculator.dll"]
