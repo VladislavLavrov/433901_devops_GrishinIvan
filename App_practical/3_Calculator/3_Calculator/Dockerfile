@@ -1,21 +1,17 @@
-# Используем базовый образ с ASP.NET 8
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
-# Используем SDK
+EXPOSE 5015
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-# Копируем файлы из текущей директории в контейнер
-COPY . /src
-# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /src
-# Устанавливаем зависимости приложения и параметры компиляции
-RUN ls
-RUN dotnet restore
-RUN dotnet build "./3_Calculator.csproj" -c Release -o /app/build
-FROM build AS publish
-RUN dotnet publish "./3_Calculator.csproj" -c Release -o /app/publish
+COPY ["3_Calculator.csproj", "./"]
+RUN dotnet restore "3_Calculator.csproj"
+COPY . .
+RUN dotnet publish "3_Calculator.csproj" -c Release -o /app/publish
+
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish ./
-# Определяем команду запуска контейнера
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "3_Calculator.dll"]
+
+
