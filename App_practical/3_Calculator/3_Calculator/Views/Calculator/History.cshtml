@@ -1,0 +1,41 @@
+﻿@model List<Calculator.Data.DataInputVariant>
+@{
+    ViewData["Title"] = "История операций";
+}
+
+<h2>История операций</h2>
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>Пока операций нет.</p>
+}
+else
+{
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Операнд 1</th>
+                <th>Операция</th>
+                <th>Операнд 2</th>
+                <th>Результат</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID_DataInputVariant</td>
+                    <td>@item.Operand_1</td>
+                    <td>@item.Type_operation</td>
+                    <td>@item.Operand_2</td>
+                    <td>@item.Result</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<p style="margin-top: 16px;">
+    <a asp-action="Index" asp-controller="Calculator">← Назад к калькулятору</a>
+</p>

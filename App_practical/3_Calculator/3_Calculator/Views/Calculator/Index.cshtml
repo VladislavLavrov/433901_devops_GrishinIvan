@@ -1,23 +1,41 @@
-﻿@{
+﻿cshtml
+@{
     ViewData["Title"] = "Калькулятор";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>Калькулятор</h2>
 
-<form method="post" asp-controller="Calculator" asp-action="Calculate">
+<form asp-action="Calculate" asp-controller="Calculator" method="post">
     @Html.AntiForgeryToken()
-    <input type="text" name="num1" required />
-    <select name="operation" required>
-        <option value="Add">+</option>
-        <option value="Subtract">-</option>
-        <option value="Multiply">*</option>
-        <option value="Divide">/</option>
-    </select>
-    <input type="text" name="num2" required />
-    <input type="submit" value="Calculate" />
+
+    <div style="margin-bottom: 8px;">
+        <label>Первое число:</label>
+        <input type="number" step="any" name="num1" required />
+    </div>
+
+    <div style="margin-bottom: 8px;">
+        <label>Второе число:</label>
+        <input type="number" step="any" name="num2" required />
+    </div>
+
+    <div style="margin-bottom: 8px;">
+        <label>Операция:</label>
+        <select name="operation">
+            <option value="Add">Сложение (+)</option>
+            <option value="Subtract">Вычитание (−)</option>
+            <option value="Multiply">Умножение (×)</option>
+            <option value="Divide">Деление (÷)</option>
+        </select>
+    </div>
+
+    <button type="submit">Вычислить</button>
 </form>
 
 @if (ViewBag.Result != null)
 {
-    <h3>Результат: @ViewBag.Result</h3>
+    <h3 style="margin-top: 20px;">Результат: @ViewBag.Result</h3>
 }
+
+<p style="margin-top: 20px;">
+    <a asp-action="History" asp-controller="Calculator">📜 История операций</a>
+</p>
