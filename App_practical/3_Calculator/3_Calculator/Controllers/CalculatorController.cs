@@ -3,28 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Calculator.Controllers
 {
-    // Перечисление операций
     public enum Operation { Add, Subtract, Multiply, Divide }
 
     public class CalculatorController : Controller
     {
-        // Ссылка на контекст БД (внедряется через DI)
         private readonly CalculatorContext _context;
 
-        // Конструктор — ASP.NET сама передаст сюда CalculatorContext
         public CalculatorController(CalculatorContext context)
         {
             _context = context;
         }
 
-        // GET: /Calculator/Index — показать форму
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: /Calculator/Calculate — посчитать и сохранить
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Calculate(double num1, double num2, Operation operation)
@@ -45,7 +40,7 @@ namespace Calculator.Controllers
                 case Operation.Divide:
                     if (num2 == 0)
                     {
-                        ViewBag.Result = "Ошибка: деление на ноль!";
+                        ViewBag.Result = "Деление на ноль!";
                         return View("Index");
                     }
                     result = num1 / num2;
@@ -54,7 +49,6 @@ namespace Calculator.Controllers
 
             ViewBag.Result = result;
 
-            // Сохраняем операцию в БД
             var dataInputVariant = new DataInputVariant
             {
                 Operand_1 = num1.ToString(),
@@ -67,16 +61,6 @@ namespace Calculator.Controllers
             _context.SaveChanges();
 
             return View("Index");
-        }
-
-        // GET: /Calculator/History — показать историю операций
-        [HttpGet]
-        public IActionResult History()
-        {
-            var items = _context.DataInputVariants
-                .OrderByDescending(x => x.ID_DataInputVariant)
-                .ToList();
-            return View(items);
         }
     }
 }
