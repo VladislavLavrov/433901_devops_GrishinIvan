@@ -50,7 +50,7 @@ namespace Calculator.Controllers
             string jsonMessage = JsonSerializer.Serialize(dataInputVariant);
             try
             {
-                await _producer.ProduceAsync("calculator-topic", new Message<Null, string> { Value = jsonMessage });
+                await _producer.ProduceAsync("grishin", new Message<Null, string> { Value = jsonMessage });
             }
             catch (Exception ex)
             {
