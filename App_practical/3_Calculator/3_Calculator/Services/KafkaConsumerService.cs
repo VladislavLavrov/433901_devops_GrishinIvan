@@ -19,7 +19,7 @@ namespace Calculator.Services
             _serviceProvider = serviceProvider;
             var config = new ConsumerConfig
             {
-                BootstrapServers = "93.88.178.186:9092",
+                BootstrapServers = "kafka:9092",
                 GroupId = "calculator-group-grishin", // Уникальная группа, чтобы не конфликтовать с другими
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
