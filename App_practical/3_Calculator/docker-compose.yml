@@ -33,3 +33,4 @@ networks:
     driver: bridge
   kafkanet:
     external: true  # <-- Указываем, что сеть уже существует (создана для серверной Kafka)
+    name: kafkanet
