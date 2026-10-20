@@ -22,7 +22,7 @@ builder.Services.AddSingleton<IProducer<Null, string>>(sp =>
 {
     var config = new ProducerConfig
     {
-        BootstrapServers = "kafka:9092" // Имя сервиса из docker-compose.yml
+        BootstrapServers = "93.88.178.186:9092"
     };
     return new ProducerBuilder<Null, string>(config).Build();
 });

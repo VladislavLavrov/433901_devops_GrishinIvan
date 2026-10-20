@@ -2,6 +2,7 @@
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using System.Threading;
 
 namespace Calculator.Controllers
 {
@@ -50,7 +51,9 @@ namespace Calculator.Controllers
             string jsonMessage = JsonSerializer.Serialize(dataInputVariant);
             try
             {
-                await _producer.ProduceAsync("grishin", new Message<Null, string> { Value = jsonMessage });
+                // Добавляем CancellationToken с тайм-аутом в 5 секунд
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                await _producer.ProduceAsync("grishin", new Message<Null, string> { Value = jsonMessage }, cts.Token);
             }
             catch (Exception ex)
             {
