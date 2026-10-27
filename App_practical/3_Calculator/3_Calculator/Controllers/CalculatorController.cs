@@ -21,7 +21,7 @@ namespace Calculator.Controllers
         public IActionResult Index()
         {
             var data = _context.DataInputVariants.OrderByDescending(x => x.ID_DataInputVariant).ToList();
-            return View(data); // Вам нужно будет поправить Index.cshtml, чтобы он принимал модель
+            return View(data);
         }
 
         [HttpPost]

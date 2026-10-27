@@ -14,6 +14,7 @@ builder.Services.AddDbContext<CalculatorContext>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 
+// Регистрация сервисов Kafka
 builder.Services.AddHostedService<KafkaConsumerService>();
 builder.Services.AddSingleton<KafkaProducerHandler>();
 builder.Services.AddSingleton<KafkaProducerService<Null, string>>();
