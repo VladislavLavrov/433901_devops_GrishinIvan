@@ -14,7 +14,7 @@ services:
     ports:
       - "0.0.0.0:5333:3306"
     networks:
-      - app-network
+      - app-net
 
   web:
     container_name: web-app-calculator
@@ -25,14 +25,11 @@ services:
     depends_on:
       - mariadb
     networks:
-      - app-network
-      - kafkanet # <-- Подключаем к сети серверной Kafka
+      - app-net
 
 networks:
-  app-network:
+  app-net:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.200.0.0/24 # Оставляем нашу рабочую подсеть
-  kafkanet:
-    external: true
+        - subnet: 10.200.0.0/24
