@@ -22,3 +22,9 @@ services:
       - "0.0.0.0:5003:5003"
     depends_on:
       - mariadb
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.99.0.0/24
