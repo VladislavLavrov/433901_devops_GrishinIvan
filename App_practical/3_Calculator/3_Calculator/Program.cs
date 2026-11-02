@@ -1,21 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 using Calculator.Data;
+using Calculator.Services;
+using Confluent.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. MVC (контроллеры + представления)
 builder.Services.AddControllersWithViews();
 
-// 2. Регистрация контекста БД с MariaDB
 string mariadbCS = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CalculatorContext>(options =>
     options.UseMySql(mariadbCS, new MySqlServerVersion(new Version(10, 5, 15))));
 
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+
+// Регистрация сервисов Kafka
+builder.Services.AddHostedService<KafkaConsumerService>();
+builder.Services.AddSingleton<KafkaProducerHandler>();
+builder.Services.AddSingleton<KafkaProducerService<Null, string>>();
 
 var app = builder.Build();
 
-// 3. Пайплайн обработки запросов
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -24,11 +29,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthorization();
 
-// 4. Маршрут по умолчанию — контроллер Calculator
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Calculator}/{action=Index}/{id?}");
