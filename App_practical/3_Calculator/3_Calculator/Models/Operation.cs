@@ -1,6 +1,4 @@
-﻿namespace _3_Calculator.Models
+﻿namespace Calculator.Models
 {
-    public class Operation
-    {
-    }
+    public enum Operation { Add, Subtract, Multiply, Divide }
 }
