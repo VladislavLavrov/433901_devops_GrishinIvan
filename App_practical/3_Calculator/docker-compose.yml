@@ -1,22 +1,7 @@
 services:
-  mariadb:
-    container_name: web-mariadb-3
-    hostname: mariadb
-    image: mariadb:10.5
-    restart: always
-    environment:
-      MARIADB_ROOT_PASSWORD: password
-      MARIADB_DATABASE: webdb
-      MARIADB_USER: webdb
-      MARIADB_PASSWORD: password
-    ports:
-      - "0.0.0.0:5333:3306"
-
   web:
-    container_name: web-app-calculator
+    container_name: web-app-calculator-jenkins-3
     hostname: app
     build: 3_Calculator/
     ports:
-      - "0.0.0.0:5003:5003"
-    depends_on:
-      - mariadb
+      - "0.0.0.0:5203:5003"
